@@ -1,0 +1,6 @@
+import java.sql.*;import java.util.*;
+class EventDao {
+ List<String[]> events()throws SQLException{List<String[]> a=new ArrayList<>();try(Connection c=DB.get();Statement s=c.createStatement();ResultSet r=s.executeQuery("SELECT event_id,event_name FROM event")){while(r.next())a.add(new String[]{r.getString(1),r.getString(2)});}return a;}
+ void register(String id,String n,String email,int event)throws SQLException{try(Connection c=DB.get();PreparedStatement p=c.prepareStatement("INSERT INTO registration(student_id,student_name,email,event_id) VALUES(?,?,?,?)")){p.setString(1,id);p.setString(2,n);p.setString(3,email);p.setInt(4,event);p.executeUpdate();}}
+ List<Object[]> rows(Integer event)throws SQLException{List<Object[]> a=new ArrayList<>();String q="SELECT r.registration_id,r.student_id,r.student_name,r.email,e.event_name,r.registered_at FROM registration r JOIN event e ON r.event_id=e.event_id"+(event==null?"":" WHERE r.event_id=?");try(Connection c=DB.get();PreparedStatement p=c.prepareStatement(q)){if(event!=null)p.setInt(1,event);try(ResultSet r=p.executeQuery()){while(r.next())a.add(new Object[]{r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getString(5),r.getTimestamp(6)});}}return a;}
+}

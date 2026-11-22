@@ -1,0 +1,1 @@
+Requires MySQL 8 + Connector/J at lib/mysql-connector-j.jar. Run sql/schema.sql; set DB_URL, DB_USER, DB_PASSWORD. Compile `javac -cp lib/mysql-connector-j.jar -d out src/*.java`; run `java -cp "out;lib/mysql-connector-j.jar" CampusEventApp` (use `:` on Linux/macOS).
